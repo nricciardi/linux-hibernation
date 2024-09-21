@@ -113,9 +113,45 @@ Regenerate the initramfs:
 sudo update-initramfs -u
 ```
 
-### OpenSUSE Tumbleweed
+### OpenSUSE (Tumbleweed)
 
-TODO
+On OpenSUSE (Tumbleweed) there is not `initramfs`, but there is `dracut`.
+
+First of all, you must create the file `/etc/dracut.conf.d/resume.conf` if it doesn't already exist and insert in it:
+
+```
+add_device+=" /dev/disk/by-uuid/<SWAP-UUID> "
+```
+
+In addiction, if your system doesn't have the `resume` module, you must include it in the same `resume.conf` file:
+
+```
+add_dracutmodules+=" resume "
+install_items+=" /usr/lib/systemd/system/systemd-hibernate-resume.service "
+
+add_device+=" /dev/disk/by-uuid/2e44238b-0e3e-44aa-b260-b1a1c6721d76 "
+```
+
+You can check if your system has already `resume` module running:
+
+```
+sudo lsinitrd | grep resume
+```
+
+If this command display nothing, then your system doesn't have the `resume` module, instead you should see something like that:
+
+```
+-rw-r--r--   1 root     root           50 Sep 13 15:27 etc/cmdline.d/95resume.conf
+-rwxr-xr-x   1 root     root        26936 Aug 19 17:00 usr/lib/systemd/systemd-hibernate-resume
+-rwxr-xr-x   1 root     root        26984 Aug 19 17:00 usr/lib/systemd/system-generators/systemd-hibernate-resume-generator
+-rw-r--r--   1 root     root          666 Aug 19 17:00 usr/lib/systemd/system/systemd-hibernate-resume.service
+```
+
+Close and save `resume.conf` file and then run:
+
+```
+sudo dracut --force
+```
 
 ## 5. Test Hibernation
 
