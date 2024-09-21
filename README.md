@@ -5,6 +5,7 @@ Step-by-step tutorial to enable hibernation on Linux.
 ## Verified configurations
 
 - Linux Mint 22 on Lenovo Thinkbook 16p g2
+- OpenSUSE Tumbleweed (september 2024) on Lenovo Thinkbook 16p g2
 
 Please, update this list.
 
