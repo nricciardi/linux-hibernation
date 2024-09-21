@@ -87,6 +87,8 @@ sudo update-grub
 
 ## 4. Edit the Initramfs Configuration
 
+### Debian and derivates
+
 Next, we need to ensure the system uses the swap partition for hibernation.
 
 Open the `initramfs-tools` configuration file:
@@ -110,6 +112,10 @@ Regenerate the initramfs:
 ```bash
 sudo update-initramfs -u
 ```
+
+### OpenSUSE Tumbleweed
+
+TODO
 
 ## 5. Test Hibernation
 
