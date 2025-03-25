@@ -2,13 +2,6 @@
 
 Step-by-step tutorial to enable hibernation on Linux.
 
-## Verified configurations
-
-- Linux Mint 22 on Lenovo Thinkbook 16p g2
-- OpenSUSE Tumbleweed (september 2024) on Lenovo Thinkbook 16p g2
-
-Please, update this list.
-
 ## 1. Verify Your Swap Partition
 
 Ensure your system recognizes the swap partition and it’s being used.
@@ -172,4 +165,35 @@ If everything is set up correctly, your system should hibernate and resume succe
 
 In particular, it should restart as a normal boot (you should see the GRUB interfaces), but loading the contents.
 
+## 6. Add "hibernate" button to power menu
+
+### Cinnamon
+
+> [!NOTE]
+> This configuration was tested by [@w-canvas](https://github.com/w-canvas) on Linux Mint 22 with Cinnamon 6.2.9 in March 2025.
+
+In the terminal run:
+
+```
+sudo nano /etc/polkit-1/rules.d/10-enable-hibernate.rules
+```
+
+Add the following lines:
+
+```
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.login1.hibernate" ||
+        action.id == "org.freedesktop.login1.hibernate-multiple-sessions" ||
+        action.id == "org.freedesktop.upower.hibernate" ||
+        action.id == "org.freedesktop.login1.handle-hibernate-key" ||
+        action.id == "org.freedesktop.login1.hibernate-ignore-inhibit")
+    {
+        return polkit.Result.YES;
+    }
+});
+```
+
+Save the file and exit (`Ctrl+o` and `Ctrl+x`).
+
+Hibernate option should now be available on the power menu.
 
